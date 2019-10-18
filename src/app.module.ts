@@ -18,7 +18,8 @@ import { CustomLogger } from './custom.logger';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    MorganMiddleware.configure(':method :url :status :res[content-length] -', {
+    // tslint:disable-next-line: max-line-length
+    MorganMiddleware.configure(':remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"', {
       stream: { write: str => CustomLogger.log(str, MorganMiddleware.name) },
     });
     consumer
